@@ -1,3 +1,4 @@
+import { AuthService } from './../_services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,11 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
   model: any = {};
-  constructor() { }
-
+  constructor(private authService: AuthService) { }
+  // tslint:disable-next-line: typedef
   ngOnInit() {
   }
+  // tslint:disable-next-line: typedef
   Login() {
-    console.log(this.model);
+    this.authService.login(this.model).subscribe(next => {
+      console.log('login is suc');
+    }, error => {
+      console.log('login is error');
+    });
+  }
+  // tslint:disable-next-line: typedef
+  loggedIn() {
+    const token = localStorage.getItem('token');
+    return !!token;
+  }
+  // tslint:disable-next-line: typedef
+  logout() {
+    localStorage.removeItem('token');
   }
 }
